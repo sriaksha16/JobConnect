@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - JobConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .back-btn {
+            background: var(--light-gray);
+            border: none;
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: var(--gray);
+            color: white;
+            transform: translateX(-3px);
+        }
+        
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .page-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .job-posting-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .job-posting-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 0.75rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-control, .form-select {
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--light-gray);
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .form-text {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            z-index: 5;
+        }
+        
+        .btn-post-job {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            width: 200px;
+        }
+        
+        .btn-post-job:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-post-job i {
+            margin-right: 0.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .salary-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-check-input {
+            margin-right: 0.5rem;
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--accent);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .salary-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .job-posting-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .job-posting-container {
+                padding: 0 0.5rem;
+            }
+            
+            .checkbox-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Animation for form elements */
+        .form-group {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Custom checkbox */
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 576px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="#" class="logo">
+                    <i class="ri-briefcase-line"></i>JobConnect
+                </a>
+                <a href="/employer/back" class="back-btn">
+                    <i class="ri-arrow-left-line"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="job-posting-container">
+        <div class="text-center mb-5">
+            <h1 class="page-title">Post a New Job</h1>
+            <p class="page-subtitle">Fill out the form below to post your job listing and find the perfect candidate</p>
+        </div>
+        
+		<div class="job-posting-card">
+		    <form action="/employer/savejob" method="post">
+		        <!-- Job Details Section -->
+		        <div class="form-section">
+		            <h3 class="section-title">
+		                <i class="ri-briefcase-line"></i> Job Details
+		            </h3>
+		            
+		            <div class="form-group mb-4">
+		                <label class="form-label required">Job Title</label>
+		                <input type="text" class="form-control" name="jobTitle" placeholder="e.g. Senior Frontend Developer" required>
+		            </div>
+		            
+		            <div class="form-group mb-4">
+		                <label class="form-label required">Job Description</label>
+		                <textarea class="form-control" name="jobDescription" rows="6" placeholder="Describe the role, responsibilities, and requirements..." required></textarea>
+		                <div class="form-text">Be specific about skills, experience, and qualifications needed.</div>
+		            </div>
+		            
+		            <div class="form-row">
+		                <div class="form-group">
+		                    <label class="form-label required">Job Type</label>
+		                    <select class="form-select" name="jobType" required>
+		                        <option value="">Select job type</option>
+		                        <option value="full-time">Full-time</option>
+		                        <option value="part-time">Part-time</option>
+		                        <option value="contract">Contract</option>
+		                        <option value="temporary">Temporary</option>
+		                        <option value="internship">Internship</option>
+		                        <option value="remote">Remote</option>
+		                    </select>
+		                </div>
+		                
+		                <div class="form-group">
+		                    <label class="form-label required">Skills</label>
+		                    <input type="text" class="form-control" name="department" placeholder="e.g. Java, Python, Sql" required>
+		                </div>
+		            </div>
+		        </div>
+				<!-- Emploer Info -->
+						        <div class="form-section">
+						            <h3 class="section-title">
+						                <i class="ri-briefcase-line"></i> Employer Informations
+						            </h3>
+						            
+						            <div class="form-row">
+						                
+										<div class="form-group">
+												                    <label class="form-label">Company Name</label>
+												                    <input type="text" class="form-control" name="companyname" placeholder="Company Name">
+												                </div>
+						                
+						                <div class="form-group">
+						                    <label class="form-label">Employer Email</label>
+						                    <input type="text" class="form-control" name="employeremail" placeholder="Employer Email">
+						                </div>
+						            </div>
+						            
+						           
+						        </div>
+		        
+		        <!-- Location & Work Setup Section -->
+		        <div class="form-section">
+		            <h3 class="section-title">
+		                <i class="ri-map-pin-line"></i> Location & Work Setup
+		            </h3>
+		            
+		            <div class="form-row">
+		                
+						<div class="form-group">
+								                    <label class="form-label">Country</label>
+								                    <input type="text" class="form-control" name="country" placeholder="e.g. India">
+								                </div>
+		                
+		                <div class="form-group">
+		                    <label class="form-label">City</label>
+		                    <input type="text" class="form-control" name="city" placeholder="e.g. AA, Chennai">
+		                </div>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label class="form-label">Work Arrangement</label>
+		                <div class="checkbox-group">
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="workArrangement" value="on-site" id="onSite">
+		                        <label class="form-check-label" for="onSite">On-site</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="workArrangement" value="remote" id="remote">
+		                        <label class="form-check-label" for="remote">Remote</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="workArrangement" value="hybrid" id="hybrid">
+		                        <label class="form-check-label" for="hybrid">Hybrid</label>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		        
+		        <!-- Salary & Benefits Section -->
+		        <div class="form-section">
+		            <h3 class="section-title">
+		                <i class="ri-money-dollar-circle-line"></i> Salary & Benefits
+		            </h3>
+		            
+		            <div class="form-group mb-4">
+		                <label class="form-label">Salary Range</label>
+		                <div class="salary-inputs">
+		                    <div class="input-group">
+		                        <input type="text" class="form-control" name="minSalary" placeholder="Min Salary">
+		                        <span class="input-icon">Rs.</span>
+		                    </div>
+		                    <div class="input-group">
+		                        <input type="text" class="form-control" name="maxSalary" placeholder="Max Salary">
+		                        <span class="input-icon">Rs.</span>
+		                    </div>
+		                </div>
+		                <div class="form-text">Leave blank if salary is negotiable or not disclosed</div>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label class="form-label">Benefits</label>
+		                <div class="checkbox-group">
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="benefits" value="healthInsurance" id="healthInsurance">
+		                        <label class="form-check-label" for="healthInsurance">Health Insurance</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="benefits" value="worklife" id="dental">
+		                        <label class="form-check-label" for="dental">Work Life Balance</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="benefits" value="retirement" id="retirement">
+		                        <label class="form-check-label" for="retirement">Retirement Plan</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="benefits" value="paidTimeOff" id="paidTimeOff">
+		                        <label class="form-check-label" for="paidTimeOff">Paid Time Off</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="benefits" value="flexibleHours" id="flexibleHours">
+		                        <label class="form-check-label" for="flexibleHours">Flexible Hours</label>
+		                    </div>
+		                    <div class="form-check">
+		                        <input class="form-check-input" type="checkbox" name="benefits" value="remoteWork" id="remoteWork">
+		                        <label class="form-check-label" for="remoteWork">Remote Work Options</label>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		        
+		        <!-- Application Process Section -->
+		        <div class="form-section">
+		            <h3 class="section-title">
+		                <i class="ri-user-follow-line"></i> Application Process
+		            </h3>
+		            
+		            <div class="form-group mb-4">
+		                <label class="form-label">Application Deadline</label>
+		                <input type="date" class="form-control" name="applicationDeadline">
+		                <div class="form-text">Leave blank if there's no specific deadline</div>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label class="form-label">How to Apply</label>
+		                <div class="form-check mb-2">
+		                    <input class="form-check-input" type="radio" name="applyMethod" value="website" id="applyWebsite" checked>
+		                    <label class="form-check-label" for="applyWebsite">
+		                        Through JobConnect website
+		                    </label>
+		                </div>
+		                <div class="form-check">
+		                    <input class="form-check-input" type="radio" name="applyMethod" value="external" id="applyExternal">
+		                    <label class="form-check-label" for="applyExternal">
+		                        External application link
+		                    </label>
+		                </div>
+		            </div>
+		            
+		            <div class="form-group mt-3" id="externalLink" style="display: none;">
+		                <label class="form-label">Application URL</label>
+		                <input type="url" class="form-control" name="applicationUrl" placeholder="https://">
+		            </div>
+		        </div>
+		        
+		        <button type="submit" class="btn-post-job">
+		            <i class="ri-send-plane-fill"></i> Post Job
+		        </button>
+		    </form>
+		</div>
+
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle external application URL field
+        document.addEventListener('DOMContentLoaded', function() {
+            const applyWebsite = document.getElementById('applyWebsite');
+            const applyExternal = document.getElementById('applyExternal');
+            const externalLink = document.getElementById('externalLink');
+            
+            applyWebsite.addEventListener('change', function() {
+                if(this.checked) {
+                    externalLink.style.display = 'none';
+                }
+            });
+            
+            applyExternal.addEventListener('change', function() {
+                if(this.checked) {
+                    externalLink.style.display = 'block';
+                }
+            });
+            
+            // Simple animation for form elements
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
